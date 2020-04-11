@@ -6,8 +6,8 @@ cap = cv2.VideoCapture(0)
 _, frame = cap.read()
 old_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-lk_params = dict(winSize=(10, 10),
-                 maxLevel=2,
+lk_params = dict(winSize=(15, 15),
+                 maxLevel=4,
                  criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
 
 
@@ -42,8 +42,11 @@ while True:
         x, y = new_points.ravel()   # getting posiiotn in x,y
         cv2.circle(frame, (x, y), 5, (0, 255, 0), -1)
 
+    first_level = cv2.pyrDown(frame)
+    second_level = cv2.pyrDown(first_level)
     cv2.imshow("Frame", frame)
-
+    cv2.imshow("First Level", first_level)
+    cv2.imshow("Second Level", second_level)
     key = cv2.waitKey(1)
     if key == 27:
         break
